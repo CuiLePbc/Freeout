@@ -151,6 +151,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showData(List<FreeGoBean> freeGoBeans) {
-        // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上
+        // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上, 目前freeGoBeans已经获得。
     }
 }

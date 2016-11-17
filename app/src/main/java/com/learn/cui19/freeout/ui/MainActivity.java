@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.view.View;
 import com.learn.cui19.freeout.R;
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.presenter.MainPresenter;
+import com.learn.cui19.freeout.ui.adapter.MyMainContentAdapter;
 import com.learn.cui19.freeout.view.MainView;
 
 import java.util.List;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.content_main)
+    RecyclerView mainRecycleView;
 
     /* 当前栏目序号 */
     private int currentLanmu;
@@ -59,9 +64,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
-        //设置toolbar
-        setSupportActionBar(toolbar);
+        initToolbarAndLeftMenu();
+
+        initMainContent();
 
         //设置浮动按钮点击
         fab.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +79,26 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    /**
+     * 初始化主界面显示内容
+     * 即初始化RecyclerView
+     */
+    private void initMainContent() {
+        mainRecycleView.setHasFixedSize(true);
+
+        mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
+
+        mainRecycleView.setAdapter(new MyMainContentAdapter());
+    }
+
+    /**
+     * 初始化toolbar和侧滑菜单
+     */
+    private void initToolbarAndLeftMenu() {
+        //设置toolbar
+        setSupportActionBar(toolbar);
 
         //设置侧滑抽屉菜单展示效果
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

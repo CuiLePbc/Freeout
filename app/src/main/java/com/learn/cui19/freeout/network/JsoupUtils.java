@@ -1,4 +1,4 @@
-package com.learn.cui19.freeout.utils;
+package com.learn.cui19.freeout.network;
 
 import com.learn.cui19.freeout.model.FreeGoBean;
 

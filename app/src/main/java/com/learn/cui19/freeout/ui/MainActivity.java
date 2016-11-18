@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        mainRecycleView.setAdapter(new MyMainContentAdapter());
+        mainRecycleView.setAdapter(new MyMainContentAdapter(null));
     }
 
     /**
@@ -181,5 +182,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showData(List<FreeGoBean> freeGoBeans) {
         // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上, 目前freeGoBeans已经获得。
+        Snackbar.make(getCurrentFocus(),freeGoBeans.size(), Snackbar.LENGTH_LONG).show();
     }
 }

@@ -10,4 +10,5 @@ package com.learn.cui19.freeout.network;
  */
 
 public class NetUtil {
+
 }

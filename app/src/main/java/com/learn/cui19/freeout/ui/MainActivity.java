@@ -22,6 +22,7 @@ import com.learn.cui19.freeout.presenter.MainPresenter;
 import com.learn.cui19.freeout.ui.adapter.MyMainContentAdapter;
 import com.learn.cui19.freeout.view.MainView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +31,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainView {
     private MainPresenter mMainPresenter;
+    private MyMainContentAdapter myMainContentAdapter;
+    private List<FreeGoBean> list;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -91,7 +94,9 @@ public class MainActivity extends AppCompatActivity
 
         mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        mainRecycleView.setAdapter(new MyMainContentAdapter(null));
+        list = new ArrayList<FreeGoBean>();
+        myMainContentAdapter = new MyMainContentAdapter(list);
+        mainRecycleView.setAdapter(myMainContentAdapter);
     }
 
     /**
@@ -182,6 +187,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showData(List<FreeGoBean> freeGoBeans) {
         // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上, 目前freeGoBeans已经获得。
-        Snackbar.make(getCurrentFocus(),freeGoBeans.size(), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getCurrentFocus(),freeGoBeans.size() + "", Snackbar.LENGTH_LONG).show();
+        myMainContentAdapter.setList(freeGoBeans);
+        myMainContentAdapter.notifyDataSetChanged();
     }
 }

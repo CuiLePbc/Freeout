@@ -4,7 +4,7 @@ package com.learn.cui19.freeout.model;
  * Created by cui19 on 2016/11/14.
  */
 
-public class FreeGoBean {
+public class FreeGoBean{
 
     private String mTitle;
     private String mHref;

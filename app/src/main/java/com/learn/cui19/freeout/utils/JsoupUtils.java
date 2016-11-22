@@ -65,6 +65,22 @@ public class JsoupUtils {
         return freeGoBeenList;
     }
 
+    /**
+     * 从携程网旅游攻略页面获取内容
+     *
+     * @param html 携程旅游攻略页面内容。
+     * @return 攻略信息列表
+     */
+    public static List<FreeGoBean> getFreeGoBeansFromXieChen(String html) {
+        List<FreeGoBean> freeGoBeenList = new ArrayList<FreeGoBean>();
+
+        Document document = Jsoup.parse(html);
+        Elements elements = document.select("[$class=journal-item]");
+        for (Element element : elements) {
+        }
+        return freeGoBeenList;
+    }
+
 }
 
 

@@ -10,6 +10,13 @@ import rx.Observable;
  */
 
 public interface FreeGoBeanApi {
+
+    /* 蚂蜂网 */
     @GET("gonglve")
     Observable<FreeGoListBean> getHtml();
+
+    /* 携程网 */
+    @GET("shanghai1.html")
+    Observable<FreeGoListBean> getBeiJinHtml();
+
 }

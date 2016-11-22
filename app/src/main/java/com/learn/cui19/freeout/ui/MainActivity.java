@@ -1,5 +1,6 @@
 package com.learn.cui19.freeout.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.learn.cui19.freeout.R;
 import com.learn.cui19.freeout.model.FreeGoBean;
@@ -32,7 +35,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainView {
     private MainPresenter mMainPresenter;
     private MyMainContentAdapter myMainContentAdapter;
-    private List<FreeGoBean> list;
+
+    public static final String DETAIL_URL = "detail_url";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.content_main)
     RecyclerView mainRecycleView;
+
+
+    ImageView leftMenuPersonHeadIV;
 
     /* 当前栏目序号 */
     private int currentLanmu;
@@ -73,14 +80,41 @@ public class MainActivity extends AppCompatActivity
      */
     private void initView() {
         initToolbarAndLeftMenu();
-
         initMainContent();
+        initListener();
+    }
 
+    /**
+     * 初始化界面上一些控件的点击事件
+     */
+    private void initListener() {
         //设置浮动按钮点击
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        //用户头像点击
+        leftMenuPersonHeadIV = (ImageView) navigationView.getHeaderView(0).findViewById(
+                R.id.img_view_main_left_menu);
+        leftMenuPersonHeadIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getCurrentFocus(), "login page or person page",
+                        Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        myMainContentAdapter.setOnItemClickListener(new MyMainContentAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Log.i("MainActivity", position + "");
+                FreeGoBean fgb = myMainContentAdapter.getItemData(position);
+                Intent intent = new Intent(MainActivity.this, FreeGoDetailActivity.class);
+                intent.putExtra(DETAIL_URL, fgb.getHref());
+                startActivity(intent);
             }
         });
     }
@@ -94,9 +128,11 @@ public class MainActivity extends AppCompatActivity
 
         mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        list = new ArrayList<FreeGoBean>();
-        myMainContentAdapter = new MyMainContentAdapter(list);
+        myMainContentAdapter = new MyMainContentAdapter(new ArrayList<FreeGoBean>(), this);
         mainRecycleView.setAdapter(myMainContentAdapter);
+
+        mMainPresenter.loadData(currentLanmu);
+
     }
 
     /**
@@ -108,7 +144,8 @@ public class MainActivity extends AppCompatActivity
 
         //设置侧滑抽屉菜单展示效果
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -165,7 +202,8 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 选中栏目
-     * @param lanmuNum 栏目序号
+     *
+     * @param lanmuNum   栏目序号
      * @param lanmuTitle 栏目标题
      */
     private void chooseLanmu(int lanmuNum, String lanmuTitle) {
@@ -187,8 +225,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showData(List<FreeGoBean> freeGoBeans) {
         // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上, 目前freeGoBeans已经获得。
-        Snackbar.make(getCurrentFocus(),freeGoBeans.size() + "", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getCurrentFocus(), freeGoBeans.size() + "", Snackbar.LENGTH_LONG).show();
+
         myMainContentAdapter.setList(freeGoBeans);
-        myMainContentAdapter.notifyDataSetChanged();
     }
 }

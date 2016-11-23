@@ -20,7 +20,7 @@ public class MyFreeGoListConvert implements Converter<ResponseBody, FreeGoListBe
     public FreeGoListBean convert(ResponseBody value) throws IOException {
 
         String html = new String(value.bytes(), "utf-8");
-        List<FreeGoBean> list = JsoupUtils.getFreeGoBeansFromMaFen(html);
+        List<FreeGoBean> list = JsoupUtils.getFreeGoBeansFromXieChen(html);
 
         return new FreeGoListBean(list);
     }

@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface IMainPresenter {
     void loadDataSuccess(List<FreeGoBean> freeGoBeans);
+    void addDataSuccess(List<FreeGoBean> freeGoBeens);
     void loadDataFailure();
+    void addDataFailure();
 }

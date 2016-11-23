@@ -13,4 +13,5 @@ public interface MainView {
     void showProgressBar();
     void hideProgressBar();
     void showData(List<FreeGoBean> freeGoBeans);
+    void addData(List<FreeGoBean> freeGoBeens);
 }

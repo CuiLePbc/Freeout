@@ -1,13 +1,20 @@
 package com.learn.cui19.freeout.utils;
 
 
+import android.util.Log;
+
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.model.FreeGoModel;
+import com.learn.cui19.freeout.network.api.FreeGoBeanApi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;

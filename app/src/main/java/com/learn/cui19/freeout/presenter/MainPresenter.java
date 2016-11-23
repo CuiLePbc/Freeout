@@ -20,12 +20,20 @@ public class MainPresenter implements Presenter<MainView>, IMainPresenter {
     }
 
     /**
-     * 加载数据
-     * @param lanmuNum 栏目序号
+     * 加载数据,默认加载第一页
      */
-    public void loadData(int lanmuNum) {
+    public void loadData(String city) {
         mMainView.showProgressBar();
-        mFreeGoModel.loadData(lanmuNum);
+        mFreeGoModel.loadData(1, city);
+    }
+
+    /**
+     * 添加数据
+     * @param page 添加的页码数
+     */
+    public void addData(int page, String city) {
+        mMainView.showProgressBar();
+        mFreeGoModel.loadData(page, city);
     }
 
     @Override
@@ -35,7 +43,18 @@ public class MainPresenter implements Presenter<MainView>, IMainPresenter {
     }
 
     @Override
+    public void addDataSuccess(List<FreeGoBean> freeGoBeens) {
+        mMainView.addData(freeGoBeens);
+        mMainView.hideProgressBar();
+    }
+
+    @Override
     public void loadDataFailure() {
+        mMainView.hideProgressBar();
+    }
+
+    @Override
+    public void addDataFailure() {
         mMainView.hideProgressBar();
     }
 

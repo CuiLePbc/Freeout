@@ -51,14 +51,14 @@ public class JsoupUtils {
             }
 
             //获得图片地址
-            Elements imgs = element.select("img");
-            if (imgs.size() > 0) {
-                String[] imgHrefs = new String[imgs.size()];
-                for (int i = 0; i < imgs.size(); i++) {
-                    imgHrefs[i] = imgs.get(i).attr("src");
-                }
-                fgb.setImgHref(imgHrefs);
-            }
+//            Elements imgs = element.select("img");
+//            if (imgs.size() > 0) {
+//                String[] imgHrefs = new String[imgs.size()];
+//                for (int i = 0; i < imgs.size(); i++) {
+//                    imgHrefs[i] = imgs.get(i).attr("src");
+//                }
+//                fgb.setImgHref(imgHrefs);
+//            }
 
             freeGoBeenList.add(fgb);
         }
@@ -75,8 +75,54 @@ public class JsoupUtils {
         List<FreeGoBean> freeGoBeenList = new ArrayList<FreeGoBean>();
 
         Document document = Jsoup.parse(html);
-        Elements elements = document.select("[$class=journal-item]");
+        Elements elements = document.select("[class^=journal-item]");
+        System.out.println(html);
         for (Element element : elements) {
+            FreeGoBean fgb = new FreeGoBean();
+
+            //获得图片地址
+            Elements img = element.select("img");
+            if (img.size() > 0) {
+                fgb.setImgHref(img.get(0).attr("src"));
+            }
+
+            //获取标题
+            Elements title = element.select(".ellipsis");
+            if (title.size() > 0) {
+                fgb.setTitle(title.get(0).text());
+            }
+
+            //获取作者
+            Elements author = element.select(".item-user");
+            if (author.size() > 0) {
+                String authorStr = author.get(0).text();
+                Elements lastReply = element.select(".lastreply");
+                if (lastReply.size() > 0) {
+                    authorStr = authorStr.replace(lastReply.get(0).text(), "");
+                }
+                fgb.setAuthor(authorStr);
+            }
+
+
+
+            //获取信息
+            Elements info = element.select(".item-short");
+            if (info.size() > 0) {
+                fgb.setInfo(info.get(0).text());
+            }
+
+            //获取提示
+            Elements tips = element.select(".tips_a");
+            if (tips.size() > 0) {
+                fgb.setTips(tips.get(0).text());
+            }
+
+            //获取链接
+            Elements href = element.select("a");
+            if (href.size() > 0) {
+                fgb.setHref(href.get(0).attr("href"));
+            }
+            freeGoBeenList.add(fgb);
         }
         return freeGoBeenList;
     }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
@@ -28,21 +29,25 @@ import rx.schedulers.Schedulers;
 public class FreeGoModel {
     private IMainPresenter mIMainPresenter;
 
-    public FreeGoModel(){}
+    public FreeGoModel(){};
 
     public FreeGoModel(IMainPresenter iMainPresenter) {
         this.mIMainPresenter = iMainPresenter;
     }
 
-    public void loadData(int num) {
+    /**
+     * 加载数据，每页九条
+     * @param page 页码
+     */
+    public void loadData(final int page, String city) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(JsoupContact.MA_FENG_WANG_LV_YOU_BASE_URLS[num - 1])
+                .baseUrl(JsoupContact.XIECHENG_YOUJI_BASE_URLS)
                 .addConverterFactory(MyFreeGoListConvertFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         retrofit.create(FreeGoBeanApi.class)
-                .getHtml()
+                .getXieChenHtml(city, Integer.toString(page))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<FreeGoListBean>() {
@@ -50,13 +55,20 @@ public class FreeGoModel {
                     public void onCompleted() {}
                     @Override
                     public void onError(Throwable e) {
-                        mIMainPresenter.loadDataFailure();
+                        if (page == 1) {
+                            mIMainPresenter.loadDataFailure();
+                        } else {
+                            mIMainPresenter.addDataFailure();
+                        }
                         e.printStackTrace();
                     }
                     @Override
                     public void onNext(FreeGoListBean bean) {
-                        System.out.println(bean.getFreeGoBeans().size());
-                        mIMainPresenter.loadDataSuccess(bean.getFreeGoBeans());
+                        if (page == 1) {
+                            mIMainPresenter.loadDataSuccess(bean.getFreeGoBeans());
+                        } else {
+                            mIMainPresenter.addDataSuccess(bean.getFreeGoBeans());
+                        }
                     }
                 });
     }

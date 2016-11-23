@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_lanmuyi"
             android:icon="@drawable/ic_menu_camera"
-            android:title="栏目一" />
+            android:title="北京" />
         <item
             android:id="@+id/nav_lanmuer"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="栏目二" />
+            android:title="广州" />
         <item
             android:id="@+id/nav_lanmusan"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="栏目三" />
+            android:title="苏州" />
     </group>
 
     <item android:title="Setting">

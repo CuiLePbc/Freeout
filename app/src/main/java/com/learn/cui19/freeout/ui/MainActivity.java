@@ -1,6 +1,7 @@
 package com.learn.cui19.freeout.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +38,11 @@ public class MainActivity extends AppCompatActivity
     private MainPresenter mMainPresenter;
     private MyMainContentAdapter myMainContentAdapter;
 
+    /* 传给详情页面的url的key */
     public static final String DETAIL_URL = "detail_url";
+
+    /* 将要刷新的剩余条数 */
+    public static final int VISIBLE_THRESHOLD = 2;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -48,6 +54,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.content_main)
     RecyclerView mainRecycleView;
+    @BindView(R.id.content_main_swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     ImageView leftMenuPersonHeadIV;
@@ -55,12 +63,19 @@ public class MainActivity extends AppCompatActivity
     /* 当前栏目序号 */
     private int currentLanmu;
 
+    /* 当前加载页数 */
+    private int page;
+    private String city;
+
+    private boolean loading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mMainPresenter = new MainPresenter(this);
+        page = 1;
 
         initView();
     }
@@ -107,6 +122,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //列表单击事件
         myMainContentAdapter.setOnItemClickListener(new MyMainContentAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -117,6 +133,34 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        //下拉刷新
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                myMainContentAdapter.clearDatas();
+                mMainPresenter.loadData();
+            }
+        });
+
+        //滑动监听，用以上拉加载更多
+        mainRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager =
+                        (LinearLayoutManager) mainRecycleView.getLayoutManager();
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                if ((!loading) && totalItemCount > 1 && totalItemCount < (lastVisibleItem + VISIBLE_THRESHOLD)) {
+                    loading = true;
+                    page += 1;
+                    mMainPresenter.addData(page);
+                }
+
+            }
+        });
     }
 
     /**
@@ -124,14 +168,14 @@ public class MainActivity extends AppCompatActivity
      * 即初始化RecyclerView
      */
     private void initMainContent() {
+        //初始化下拉刷新颜色
+        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE);
+
+        //初始化列表
         mainRecycleView.setHasFixedSize(true);
-
         mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
-
         myMainContentAdapter = new MyMainContentAdapter(new ArrayList<FreeGoBean>(), this);
         mainRecycleView.setAdapter(myMainContentAdapter);
-
-        mMainPresenter.loadData(currentLanmu);
 
     }
 
@@ -169,7 +213,9 @@ public class MainActivity extends AppCompatActivity
 
         //刷新当前页面，即重新加载数据
         if (id == R.id.action_refresh) {
-            mMainPresenter.loadData(currentLanmu);
+            myMainContentAdapter.clearDatas();
+            page = 1;
+            mMainPresenter.loadData();
             return true;
         }
 
@@ -209,7 +255,7 @@ public class MainActivity extends AppCompatActivity
     private void chooseLanmu(int lanmuNum, String lanmuTitle) {
         currentLanmu = lanmuNum;
         getSupportActionBar().setTitle(lanmuTitle);
-        mMainPresenter.loadData(currentLanmu);
+        mMainPresenter.loadData();
     }
 
     @Override
@@ -219,7 +265,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void hideProgressBar() {
-        // TODO: 2016/11/15 隐藏或取消加载数据时候的进度条 
+        // TODO: 2016/11/15 隐藏或取消加载数据时候的进度条
+        // 下拉刷新的进度条
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -228,5 +278,11 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(getCurrentFocus(), freeGoBeans.size() + "", Snackbar.LENGTH_LONG).show();
 
         myMainContentAdapter.setList(freeGoBeans);
+    }
+
+    @Override
+    public void addData(List<FreeGoBean> freeGoBeens) {
+        loading = false;
+        myMainContentAdapter.addList(freeGoBeens);
     }
 }

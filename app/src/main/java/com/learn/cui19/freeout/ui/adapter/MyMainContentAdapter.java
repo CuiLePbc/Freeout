@@ -96,7 +96,13 @@ public class MyMainContentAdapter extends
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof FootViewHolder) {
-            ((FootViewHolder)holder).mProgressBar.setVisibility(View.VISIBLE);
+            if (position <= 1) {
+                ((FootViewHolder)holder).mProgressBar.setVisibility(View.INVISIBLE);
+                ((FootViewHolder)holder).mTextView.setVisibility(View.INVISIBLE);
+            } else {
+                ((FootViewHolder) holder).mProgressBar.setVisibility(View.VISIBLE);
+                ((FootViewHolder)holder).mTextView.setVisibility(View.VISIBLE);
+            }
             return;
         }
 
@@ -148,6 +154,8 @@ public class MyMainContentAdapter extends
 
         @BindView(R.id.content_main_foot_progressbar)
         ProgressBar mProgressBar;
+        @BindView(R.id.content_main_foot_textview)
+        TextView mTextView;
 
         public FootViewHolder(View itemView) {
             super(itemView);

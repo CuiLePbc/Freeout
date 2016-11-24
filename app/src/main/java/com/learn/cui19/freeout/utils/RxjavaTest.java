@@ -31,6 +31,5 @@ import rx.subjects.PublishSubject;
 
 public class RxjavaTest {
     public static void main(String[] args) {
-        new FreeGoModel().loadData(1);
     }
 }

@@ -76,7 +76,6 @@ public class JsoupUtils {
 
         Document document = Jsoup.parse(html);
         Elements elements = document.select("[class^=journal-item]");
-        System.out.println(html);
         for (Element element : elements) {
             FreeGoBean fgb = new FreeGoBean();
 

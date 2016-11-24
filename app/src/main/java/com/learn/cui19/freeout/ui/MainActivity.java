@@ -25,6 +25,7 @@ import com.learn.cui19.freeout.R;
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.presenter.MainPresenter;
 import com.learn.cui19.freeout.ui.adapter.MyMainContentAdapter;
+import com.learn.cui19.freeout.utils.JsoupContact;
 import com.learn.cui19.freeout.view.MainView;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         mMainPresenter = new MainPresenter(this);
         page = 1;
+        city = JsoupContact.GUANGZHOU;
 
         initView();
     }
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 page = 1;
                 myMainContentAdapter.clearDatas();
-                mMainPresenter.loadData();
+                mMainPresenter.loadData(city);
             }
         });
 
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity
                 if ((!loading) && totalItemCount > 1 && totalItemCount < (lastVisibleItem + VISIBLE_THRESHOLD)) {
                     loading = true;
                     page += 1;
-                    mMainPresenter.addData(page);
+                    mMainPresenter.addData(page, city);
                 }
 
             }
@@ -215,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_refresh) {
             myMainContentAdapter.clearDatas();
             page = 1;
-            mMainPresenter.loadData();
+            mMainPresenter.loadData(city);
             return true;
         }
 
@@ -255,7 +257,11 @@ public class MainActivity extends AppCompatActivity
     private void chooseLanmu(int lanmuNum, String lanmuTitle) {
         currentLanmu = lanmuNum;
         getSupportActionBar().setTitle(lanmuTitle);
-        mMainPresenter.loadData();
+        page = 1;
+        if (myMainContentAdapter != null && myMainContentAdapter.getItemCount() > 1) {
+            myMainContentAdapter.clearDatas();
+        }
+        mMainPresenter.loadData(city);
     }
 
     @Override

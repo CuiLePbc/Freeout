@@ -1,0 +1,187 @@
+<root>
+    <province name="国内">
+        <city name="华东">
+            <district name="上海" zipcode="shanghai2"/>
+            <district name="杭州" zipcode="hangzhou14"/>
+            <district name="绍兴" zipcode="shaoxing18"/>
+            <district name="乌镇" zipcode="wuzhen508"/>
+            <district name="西塘" zipcode="xitang15"/>
+            <district name="普陀山" zipcode="putuoshan16"/>
+            <district name="宁波" zipcode="ningbo83"/>
+            <district name="苏州" zipcode="suzhou11"/>
+            <district name="南京" zipcode="nanjing9"/>
+            <district name="无锡" zipcode="wuxi10"/>
+            <district name="扬州" zipcode="yangzhou12"/>
+            <district name="婺源" zipcode="wuyuan446"/>
+            <district name="庐山" zipcode="lushan20"/>
+            <district name="黄山" zipcode="huangshan120061"/>
+            <district name="九华山" zipcode="jiuhuashan182"/>
+            <district name="泰山" zipcode="taishan6"/>
+            <district name="青岛" zipcode="qingdao5"/>
+            <district name="威海" zipcode="weihai169"/>
+        </city>
+        <city name="华南">
+            <district name="厦门" zipcode="xiamen21"/>
+            <district name="武夷山" zipcode="wuyishan22"/>
+            <district name="广州" zipcode="guangzhou152"/>
+            <district name="深圳" zipcode="shenzhen26"/>
+            <district name="珠海" zipcode="zhuhai27"/>
+            <district name="桂林" zipcode="guilin28"/>
+            <district name="阳朔" zipcode="yangshuo702"/>
+            <district name="北海" zipcode="beihai140"/>
+            <district name="南宁" zipcode="nanning166"/>
+            <district name="海口" zipcode="haikou37"/>
+            <district name="三亚" zipcode="sanya61"/>
+        </city>
+        <city name="华北">
+            <district name="北京" zipcode="beijing1"/>
+            <district name="天津" zipcode="tianjin154"/>
+            <district name="秦皇岛" zipcode="qinhuangdao132"/>
+            <district name="平遥" zipcode="pingyao365"/>
+            <district name="大同" zipcode="datong275"/>
+            <district name="五台山" zipcode="wutaishan184"/>
+        </city>
+        <city name="华中">
+            <district name="张家界" zipcode="zhangjiajie23"/>
+            <district name="凤凰" zipcode="fenghuang988"/>
+            <district name="长沙" zipcode="changsha148"/>
+            <district name="武汉" zipcode="wuhan145"/>
+            <district name="武当山" zipcode="wudangshan146"/>
+            <district name="洛阳" zipcode="luoyang198"/>
+        </city>
+        <city name="东北">
+            <district name="哈尔滨" zipcode="haerbin151"/>
+            <district name="长春" zipcode="changchun216"/>
+            <district name="长白山" zipcode="changbaishan268"/>
+            <district name="大连" zipcode="dalian4"/>
+            <district name="沈阳" zipcode="shenyang155"/>
+            <district name="呼伦贝尔" zipcode="hulunbeier458"/>
+        </city>
+        <city name="西北">
+            <district name="西安" zipcode="xian7"/>
+            <district name="西宁" zipcode="xining237"/>
+            <district name="青海湖" zipcode="qinghaihu281"/>
+            <district name="兰州" zipcode="lanzhou231"/>
+            <district name="敦煌" zipcode="dunhuang8"/>
+            <district name="嘉峪关" zipcode="jiayuguan284"/>
+            <district name="乌鲁木齐" zipcode="urumqi117"/>
+            <district name="银川" zipcode="yinchuan239"/>
+        </city>
+        <city name="西南">
+            <district name="成都" zipcode="chengdu104"/>
+            <district name="重庆" zipcode="chongqing158"/>
+            <district name="乐山" zipcode="leshan103"/>
+            <district name="稻城-亚丁" zipcode="daocheng342"/>
+            <district name="九寨沟" zipcode="jiuzhaigou25"/>
+            <district name="丽江" zipcode="lijiang32"/>
+            <district name="大理" zipcode="dali31"/>
+            <district name="昆明" zipcode="kunming29"/>
+            <district name="泸沽湖" zipcode="luguhu105"/>
+            <district name="香格里拉" zipcode="xianggelila106"/>
+            <district name="西双版纳" zipcode="xishuangbanna30"/>
+            <district name="拉萨" zipcode="lhasa36"/>
+            <district name="林芝" zipcode="linzhi126"/>
+            <district name="贵阳" zipcode="guiyang33"/>
+        </city>
+        <city name="港澳台">
+            <district name="香港" zipcode="236000"/>
+            <district name="澳门" zipcode="236000"/>
+            <district name="台北" zipcode="236000"/>
+            <district name="九份" zipcode="236000"/>
+            <district name="宜兰" zipcode="236000"/>
+            <district name="花莲" zipcode="236000"/>
+            <district name="南投" zipcode="236000"/>
+            <district name="台南" zipcode="236000"/>
+            <district name="高雄" zipcode="236000"/>
+            <district name="垦丁" zipcode="236000"/>
+            <district name="台东" zipcode="236000"/>
+        </city>
+    </province>
+    <province name="亚洲">
+        <city name="东亚">
+            <district name="新加坡1" zipcode="246000"/>
+            <district name="新加坡2" zipcode="246000"/>
+            <district name="新加坡3" zipcode="246000"/>
+        </city>
+        <city name="东南亚">
+            <district name="日本1" zipcode="233000"/>
+            <district name="日本2" zipcode="233000"/>
+        </city>
+        <city name="南亚">
+            <district name="朝鲜1" zipcode="236000"/>
+            <district name="朝鲜2" zipcode="236000"/>
+        </city>
+        <city name="中西亚">
+            <district name="朝鲜1" zipcode="236000"/>
+            <district name="朝鲜2" zipcode="236000"/>
+        </city>
+    </province>
+    <province name="欧洲">
+        <city name="东欧">
+            <district name="英国1" zipcode="246000"/>
+            <district name="英国2" zipcode="246000"/>
+            <district name="英国3" zipcode="246000"/>
+        </city>
+        <city name="西欧">
+            <district name="德国1" zipcode="233000"/>
+            <district name="德国2" zipcode="233000"/>
+        </city>
+        <city name="南欧">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="北欧">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="中欧">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+    </province>
+    <province name="北美洲">
+        <city name="美国">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="加拿大">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="其他">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+
+    </province>
+    <province name="大洋洲">
+        <city name="澳大利亚">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="新西兰">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="其他">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+
+    </province>
+    <province name="其他洲">
+        <city name="南美洲">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+
+        <city name="非洲">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+        <city name="南极洲">
+            <district name="意大利1" zipcode="236000"/>
+            <district name="意大利2" zipcode="236000"/>
+        </city>
+    </province>
+</root>

@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.learn.cui19.freeout.R;
 import com.learn.cui19.freeout.model.FreeGoBean;
@@ -27,6 +28,7 @@ import com.learn.cui19.freeout.presenter.MainPresenter;
 import com.learn.cui19.freeout.ui.adapter.MyMainContentAdapter;
 import com.learn.cui19.freeout.utils.JsoupContact;
 import com.learn.cui19.freeout.view.MainView;
+import com.lljjcoder.citypickerview.widget.CityPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,15 +60,13 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.content_main_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-
     ImageView leftMenuPersonHeadIV;
-
-    /* 当前栏目序号 */
-    private int currentLanmu;
 
     /* 当前加载页数 */
     private int page;
-    private String city;
+
+    /* 三级地址：0是洲 1是区域或国家 2是城市 3是对应地址字符 */
+    private String[] city;
 
     private boolean loading = false;
 
@@ -77,9 +77,13 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         mMainPresenter = new MainPresenter(this);
         page = 1;
-        city = JsoupContact.GUANGZHOU;
+
+        //初始化为上海
+        city = new String[]{"国内", "华东", "上海", JsoupContact.SHANGHAI};
 
         initView();
+
+        changeCity(city);
     }
 
     @Override
@@ -140,9 +144,7 @@ public class MainActivity extends AppCompatActivity
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
-                myMainContentAdapter.clearDatas();
-                mMainPresenter.loadData(city);
+                changeCity(city);
             }
         });
 
@@ -155,10 +157,11 @@ public class MainActivity extends AppCompatActivity
                         (LinearLayoutManager) mainRecycleView.getLayoutManager();
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-                if ((!loading) && totalItemCount > 1 && totalItemCount < (lastVisibleItem + VISIBLE_THRESHOLD)) {
+                if ((!loading) && totalItemCount > 1 && totalItemCount < (lastVisibleItem
+                        + VISIBLE_THRESHOLD)) {
                     loading = true;
                     page += 1;
-                    mMainPresenter.addData(page, city);
+                    mMainPresenter.addData(page, city[3]);
                 }
 
             }
@@ -200,7 +203,6 @@ public class MainActivity extends AppCompatActivity
 
         //默认选中栏目一
         navigationView.getMenu().getItem(0).setChecked(true);
-        chooseLanmu(1, navigationView.getMenu().getItem(0).getTitle().toString());
     }
 
     @Override
@@ -215,9 +217,31 @@ public class MainActivity extends AppCompatActivity
 
         //刷新当前页面，即重新加载数据
         if (id == R.id.action_refresh) {
-            myMainContentAdapter.clearDatas();
-            page = 1;
-            mMainPresenter.loadData(city);
+
+            CityPicker cityPicker = new CityPicker.Builder(this)
+                    .textSize(20)
+                    .itemPadding(12)
+                    .visibleItemsCount(7)
+                    .province(city[0])
+                    .city(city[1])
+                    .district(city[2])
+                    .title("城市选择")
+                    .titleBackgroundColor("#234Dfa")
+                    .build();
+            cityPicker.show();
+            cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
+                @Override
+                public void onSelected(String... citySelected) {
+
+                    if (citySelected.length >= 3 && null != citySelected[3]
+                            && (!"".equals(citySelected[3]))) {
+                        city = new String[]{citySelected[0], citySelected[1], citySelected[2],
+                                citySelected[3]};
+                        changeCity(city);
+                    }
+
+                }
+            });
             return true;
         }
 
@@ -230,11 +254,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_lanmuyi) {
-            chooseLanmu(1, item.getTitle().toString());
+
         } else if (id == R.id.nav_lanmuer) {
-            chooseLanmu(2, item.getTitle().toString());
+
         } else if (id == R.id.nav_lanmusan) {
-            chooseLanmu(3, item.getTitle().toString());
+
         } else if (id == R.id.nav_manage) {
             // TODO: 2016/11/15 跳转到设置界面 
         } else if (id == R.id.nav_info) {
@@ -251,17 +275,15 @@ public class MainActivity extends AppCompatActivity
     /**
      * 选中栏目
      *
-     * @param lanmuNum   栏目序号
-     * @param lanmuTitle 栏目标题
+     * @param city 城市,四项的数组
      */
-    private void chooseLanmu(int lanmuNum, String lanmuTitle) {
-        currentLanmu = lanmuNum;
-        getSupportActionBar().setTitle(lanmuTitle);
+    private void changeCity(String[] city) {
+        getSupportActionBar().setTitle(city[2]);
         page = 1;
         if (myMainContentAdapter != null && myMainContentAdapter.getItemCount() > 1) {
             myMainContentAdapter.clearDatas();
         }
-        mMainPresenter.loadData(city);
+        mMainPresenter.loadData(city[3]);
     }
 
     @Override
@@ -280,9 +302,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showData(List<FreeGoBean> freeGoBeans) {
-        // TODO: 2016/11/15 将获得的freeGoBeans数据显示到主界面上, 目前freeGoBeans已经获得。
-        Snackbar.make(getCurrentFocus(), freeGoBeans.size() + "", Snackbar.LENGTH_LONG).show();
-
+        // 将获得的freeGoBeans数据显示到主界面上。
         myMainContentAdapter.setList(freeGoBeans);
     }
 

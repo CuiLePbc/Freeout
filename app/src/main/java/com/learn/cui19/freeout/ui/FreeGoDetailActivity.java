@@ -3,16 +3,13 @@ package com.learn.cui19.freeout.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.learn.cui19.freeout.R;
 import com.learn.cui19.freeout.model.FreeGoDetailBean;
 import com.learn.cui19.freeout.presenter.DetailPresenter;
-import com.learn.cui19.freeout.utils.JsoupContact;
 import com.learn.cui19.freeout.view.DetailView;
 
 import butterknife.BindView;

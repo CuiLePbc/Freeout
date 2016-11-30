@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,27 +19,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.learn.cui19.freeout.MyApplication;
 import com.learn.cui19.freeout.R;
+import com.learn.cui19.freeout.dgr.component.DaggerMainComponent;
+import com.learn.cui19.freeout.dgr.module.MainModule;
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.presenter.MainPresenter;
 import com.learn.cui19.freeout.ui.adapter.MyMainContentAdapter;
-import com.learn.cui19.freeout.utils.JsoupContact;
+import com.learn.cui19.freeout.jsoup.JsoupContact;
 import com.learn.cui19.freeout.view.MainView;
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainView {
-    private MainPresenter mMainPresenter;
-    private MyMainContentAdapter myMainContentAdapter;
-
     /* 传给详情页面的url的key */
     public static final String DETAIL_URL = "detail_url";
 
@@ -60,6 +59,11 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.content_main_swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    @Inject
+    MainPresenter mMainPresenter;
+    @Inject
+    MyMainContentAdapter myMainContentAdapter;
+
     ImageView leftMenuPersonHeadIV;
 
     /* 当前加载页数 */
@@ -75,7 +79,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mMainPresenter = new MainPresenter(this);
+        DaggerMainComponent
+                .builder()
+                .applicationComponent(((MyApplication)getApplication()).getApplicationComponent())
+                .mainModule(new MainModule(this))
+                .build()
+                .inject(this);
+
         page = 1;
 
         //初始化为上海
@@ -123,8 +133,7 @@ public class MainActivity extends AppCompatActivity
         leftMenuPersonHeadIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(getCurrentFocus(), "login page or person page",
-                        Snackbar.LENGTH_LONG).show();
+                // TODO: 2016/11/30 跳转到用户信息界面，若未登陆，跳转至登陆界面
             }
         });
 
@@ -179,7 +188,6 @@ public class MainActivity extends AppCompatActivity
         //初始化列表
         mainRecycleView.setHasFixedSize(true);
         mainRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        myMainContentAdapter = new MyMainContentAdapter(new ArrayList<FreeGoBean>(), this);
         mainRecycleView.setAdapter(myMainContentAdapter);
 
     }

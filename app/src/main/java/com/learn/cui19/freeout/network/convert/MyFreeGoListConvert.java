@@ -2,7 +2,7 @@ package com.learn.cui19.freeout.network.convert;
 
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.model.FreeGoListBean;
-import com.learn.cui19.freeout.utils.JsoupUtils;
+import com.learn.cui19.freeout.jsoup.JsoupUtils;
 
 import java.io.IOException;
 import java.util.List;

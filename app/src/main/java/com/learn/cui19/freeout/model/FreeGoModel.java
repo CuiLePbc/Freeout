@@ -3,23 +3,12 @@ package com.learn.cui19.freeout.model;
 import com.learn.cui19.freeout.network.api.FreeGoBeanApi;
 import com.learn.cui19.freeout.network.convert.MyFreeGoListConvertFactory;
 import com.learn.cui19.freeout.presenter.IMainPresenter;
-import com.learn.cui19.freeout.utils.JsoupContact;
-import com.learn.cui19.freeout.utils.JsoupUtils;
+import com.learn.cui19.freeout.jsoup.JsoupContact;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -28,8 +17,6 @@ import rx.schedulers.Schedulers;
 
 public class FreeGoModel {
     private IMainPresenter mIMainPresenter;
-
-    public FreeGoModel(){};
 
     public FreeGoModel(IMainPresenter iMainPresenter) {
         this.mIMainPresenter = iMainPresenter;

@@ -1,10 +1,14 @@
 package com.learn.cui19.freeout.presenter;
 
+import com.learn.cui19.freeout.dgr.component.DaggerMainPresenterComponent;
+import com.learn.cui19.freeout.dgr.module.MainPresenterModule;
 import com.learn.cui19.freeout.model.FreeGoBean;
 import com.learn.cui19.freeout.model.FreeGoModel;
 import com.learn.cui19.freeout.view.MainView;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by cui19 on 2016/11/14.
@@ -12,11 +16,14 @@ import java.util.List;
 
 public class MainPresenter implements Presenter<MainView>, IMainPresenter {
     private MainView mMainView;
-    private FreeGoModel mFreeGoModel;
+    @Inject FreeGoModel mFreeGoModel;
 
     public MainPresenter(MainView mainView) {
         attachView(mainView);
-        mFreeGoModel = new FreeGoModel(this);
+        DaggerMainPresenterComponent.builder()
+                .mainPresenterModule(new MainPresenterModule(this))
+                .build()
+                .inject(this);
     }
 
     /**

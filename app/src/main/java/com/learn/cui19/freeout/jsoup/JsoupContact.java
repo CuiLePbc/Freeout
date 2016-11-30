@@ -1,4 +1,4 @@
-package com.learn.cui19.freeout.utils;
+package com.learn.cui19.freeout.jsoup;
 
 /**
  * Created by cui19 on 2016/11/16.

@@ -12,6 +12,9 @@ public interface JsoupContact {
     /* 携程旅游游记 */
     public String XIECHENG_YOUJI_BASE_URLS = "http://you.ctrip.com/travels/";
 
+    /**/
+    public String XIECHENG_BASE_URL = "http://you.ctrip.com/";
+
     /* 携程游记各个城市url */
     public String SHANGHAI = "shanghai2";
     public String HANGZHOU = "hangzhou14";

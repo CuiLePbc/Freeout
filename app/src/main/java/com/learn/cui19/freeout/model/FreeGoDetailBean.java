@@ -5,4 +5,19 @@ package com.learn.cui19.freeout.model;
  */
 
 public class FreeGoDetailBean {
+    private String html;
+
+    public FreeGoDetailBean(){}
+
+    public FreeGoDetailBean(String html){
+        this.html = html;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
 }

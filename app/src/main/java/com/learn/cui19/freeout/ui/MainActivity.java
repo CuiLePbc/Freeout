@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void initMainContent() {
         //初始化下拉刷新颜色
-        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.YELLOW);
 
         //初始化列表
         mainRecycleView.setHasFixedSize(true);
@@ -296,7 +296,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showProgressBar() {
-        // TODO: 2016/11/15 显示加载数据时候的进度条 
+        // TODO: 2016/11/15 显示加载数据时候的进度条
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
     }
 
     @Override

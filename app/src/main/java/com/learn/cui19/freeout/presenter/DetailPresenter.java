@@ -15,7 +15,7 @@ public class DetailPresenter implements Presenter<DetailView>, IDetailPresenter 
 
     public DetailPresenter(DetailView detailView) {
         attachView(detailView);
-        mModel = new FreeGoDetailModel();
+        mModel = new FreeGoDetailModel(this);
     }
 
     public void loadData(String url) {
